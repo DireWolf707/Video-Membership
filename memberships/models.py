@@ -33,7 +33,7 @@ class UserMembership(models.Model):
     stripe_customer_id = models.CharField(max_length=40)
     stripe_Subscription_id = models.CharField(max_length=40, blank=True)
     active = models.BooleanField(default=True)
-    membership = models.ForeignKey(
+    membership_type = models.ForeignKey(
         Membership, related_name='members', on_delete=models.SET_NULL, null=True
     )
 
@@ -51,5 +51,5 @@ def post_save_usermembership(sender, instance, created, *args, **kwargs):
         UserMembership.objects.create(
             user=instance,
             stripe_customer_id=customer['id'],
-            membership=free_membership
+            membership_type=free_membership
         )
